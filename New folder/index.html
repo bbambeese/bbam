@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beats-Inspired Website</title>
+  <style>
+    /* การเชื่อมโยงฟอนต์ .ttf */
+    @font-face {
+      font-family: 'CustomFont'; /* ตั้งชื่อฟอนต์ */
+      src: url('./Sterion-BLLld.ttf') format('truetype'); /* ระบุ path ของฟอนต์ */
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'CustomFont', Arial, sans-serif; /* ใช้ฟอนต์ที่ระบุ */
+      background-color: #000;
+      color: #fff;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7); /* เปลี่ยนเป็นสีดำที่เบลอเล็กน้อย */
+      backdrop-filter: blur(10px); /* เพิ่มเบลอพื้นหลัง */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-radius: 10px; /* ทำให้มุมมน */
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    /* Menu links */
+    .menu {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown a {
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: rgba(255, 255, 255, 0.1); /* สีสว่างขึ้นเล็กน้อย */
+      backdrop-filter: blur(10px);
+      border-radius: 10px; /* ทำให้มุมมน */
+      min-width: 160px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      padding: 0;
+      max-height: 0; /* Set max height to 0 initially */
+      opacity: 0; /* Make it invisible */
+      overflow: hidden; /* Hide the contents */
+      transition: max-height 0.3s ease-out, opacity 0.3s ease-out; /* Add transition for slide effect */
+    }
+
+    .dropdown-content a {
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+      display: block;
+      z-index: 10001;
+      border-radius: 10px; /* ขอบมน */
+      transition: background 0.3s, box-shadow 0.3s; /* Add transition for smooth effect */
+    }
+
+    .dropdown-content a:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* ทำให้สีเบลอขึ้นเมื่อ hover */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); /* สร้างเงา */
+    }
+
+    /* Show dropdown with slide-down effect */
+    .dropdown:hover .dropdown-content {
+      max-height: 300px; /* Set the max-height to a large value when dropdown is shown */
+      opacity: 1; /* Make it visible */
+    }
+
+    /* Hero Section with looping video background */
+    .hero {
+      position: relative;
+      height: 100vh; /* ใช้ความสูงเต็มหน้าจอ */
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero video {
+      position: fixed; /* ทำให้ video อยู่ที่ตำแหน่งคงที่ */
+      top: 0;
+      left: 0;
+      width: 100vw;  /* ทำให้ video เต็มหน้าจอทั้งในแนวนอน */
+      height: 100vh; /* ทำให้ video เต็มหน้าจอทั้งในแนวตั้ง */
+      object-fit: cover; /* ให้ video เต็มพื้นที่ไม่เว้นช่องว่าง */
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin: 0;
+    }
+
+    .hero button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      background-color: #e50000;
+      color: #fff;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-radius: 30px; /* เพิ่มขอบมนให้มากขึ้น */
+    }
+
+    .hero button:hover {
+      background-color: #ff1a1a;
+    }
+
+    /* Social Media Buttons */
+    .hero .social-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .hero .social-buttons a {
+      display: block;
+    }
+
+    .hero .social-buttons img {
+      width: 40px; /* ขนาดของไอคอน */
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .hero .social-buttons img:hover {
+      transform: scale(1.1); /* ขยายไอคอนเมื่อ hover */
+    }
+
+    /* LINE Dropdown */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: rgba(255, 255, 255, 0.1); /* สีสว่างขึ้นเล็กน้อย */
+      backdrop-filter: blur(10px);
+      border-radius: 10px; /* ทำให้มุมมน */
+      min-width: 160px;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content img {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #111;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* เปลี่ยนฟอนต์ใน Footer */
+    .footer p {
+      font-family: Arial, Helvetica, sans-serif; /* เปลี่ยนเป็นฟอนต์ปกติ */
+      font-weight: 600; /* เพิ่มน้ำหนักตัวหนา */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="logo">BAMBOO</div>
+    <div class="menu">
+      <a href="#">Home</a>
+      <div class="dropdown">
+        <a href="#">Products</a>
+        <!-- Dropdown content -->
+        <div class="dropdown-content">
+          <a href="./MNN Chukyu I - Mondai.pdf">File</a>
+          <a href="http://127.0.0.1:1880/ui/#!/0?socketid=KwqTiXnQowOjGgJXAAAB">Dashboard</a>
+          <a href="https://www.youtube.com/watch?v=poYWNrf1dLU">Video</a>
+        </div>
+      </div>
+      <a href="#" id="aboutLink">About</a>
+      <a href="#" id="contactLink">Contact</a>
+    </div>
+  </div>
+
+  <!-- Hero Section with looping video background -->
+  <div class="hero" id="heroSection">
+    <video autoplay muted loop>
+      <source src="cat.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div>
+      <h1>Feel the Beat</h1>
+      <button onclick="window.location.href='https://www.sessiontown.com/en/music-games-apps/virtual-instrument-play-drums-online';">GO NOW</button>
+
+      <!-- Social Media Buttons -->
+      <div class="social-buttons">
+        <a href="https://www.instagram.com/zutomayo/" target="_blank">
+          <img src="Instagram_logo_2016.svg.webp" alt="Instagram">
+        </a>
+        <a href="https://www.facebook.com/panutat.jara.5" target="_blank">
+          <img src="./Facebook_Logo_(2019).png.webp" alt="Facebook">
+        </a>
+        <div class="dropdown">
+          <a href="javascript:void(0)">
+            <img src="LINE_logo.svg.png" alt="LINE">
+          </a>
+          <div class="dropdown-content">
+            <!-- Link to open QR code image in a new tab -->
+            <a href="my_qrcode_1740223511107.jpg" target="_blank">
+              <img src="./my_qrcode_1740223511107.jpg" alt="LINE QR Code">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p id="footerText">&copy; 2025 BAMBOOClone. All rights reserved.</p>
+    <p id="footerText">USE FOR PROJECT WEBSIDE TO ON WEEK 12 ASSIGNMENT.</p>
+    <p id="footerText">BY PANUTAT JARA 6503014621042 MtET R32.</p>
+
+    <p id="tell">TELL :099 990 0010</p>
+  </div>
+
+  <script>
+    // JavaScript to handle scrolling and color change
+    document.getElementById('contactLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      // Scroll to the footer
+      document.getElementById('tell').scrollIntoView({ behavior: 'smooth' });
+
+      // Change color of TELL text
+      const tellElement = document.getElementById('tell');
+      let count = 0;
+      const colors = ['#fff', '#e50000'];
+
+      // Change color 2 times
+      const interval = setInterval(function() {
+        tellElement.style.color = colors[count % 2];
+        count++;
+
+        if (count === 4) {
+          clearInterval(interval);
+          tellElement.style.color = '#fff'; // Set back to white after 2 cycles
+        }
+      }, 500);
+    });
+
+    // JavaScript to handle scrolling and color change for About
+    document.getElementById('aboutLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      // Scroll to the footer
+      document.getElementById('footerText').scrollIntoView({ behavior: 'smooth' });
+
+      // Change color of footer text
+      const footerElement = document.getElementById('footerText');
+      let count = 0;
+      const colors = ['#fff', '#e50000'];
+
+      // Change color 2 times
+      const interval = setInterval(function() {
+        footerElement.style.color = colors[count % 2];
+        count++;
+
+        if (count === 4) {
+          clearInterval(interval);
+          footerElement.style.color = '#fff'; // Set back to white after 2 cycles
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
